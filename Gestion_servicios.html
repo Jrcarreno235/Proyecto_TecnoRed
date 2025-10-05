@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TecnoRed Soluciones - Gestión de Servicios</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <!-- Encabezado -->
+    <header class="header">
+      <div class="nav-container">
+        <div class="logo">
+          <img
+            src="img/logo.png"
+            width="300"
+            height="50"
+            alt="TecnoRed Logo"
+            class="h-10"
+          />
+        </div>
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li>
+              <a href="#" class="btn-solicitar" onclick="solicitarAsesoria()"
+                >Solicitar asesoría</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container main-content">
+      <h1 class="page-title">Gestión de servicios</h1>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="services-table">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Cant.</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="servicesTableBody"></tbody>
+            </table>
+            <button class="btn-add-service" onclick="showAddForm()">
+              <i class="fas fa-plus me-2"></i> Agregar nuevo servicio
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="add-service-form">
+            <h3 class="form-title" id="formTitle">Agregar servicio</h3>
+            <form id="serviceForm">
+              <div class="mb-3">
+                <label class="form-label">Tipo de Imagen</label>
+                <div class="d-flex gap-3 mb-2">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="imageType"
+                      id="imageTypeIcon"
+                      value="icon"
+                      checked
+                      onchange="toggleImageType()"
+                    />
+                    <label class="form-check-label" for="imageTypeIcon"
+                      >Icono</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="imageType"
+                      id="imageTypeFile"
+                      value="file"
+                      onchange="toggleImageType()"
+                    />
+                    <label class="form-check-label" for="imageTypeFile"
+                      >Imagen</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3" id="iconField">
+                <label class="form-label">Icono (Font Awesome)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serviceIcon"
+                  placeholder=""
+                />
+                <small class="text-muted"
+                  >Ejemplo: Soporte Técnico, Redes y Servidores, Desarrollo de
+                  Software, Consultoria, Seguridad Informatica, Servicio
+                  nube</small
+                >
+              </div>
+
+              <div class="mb-3" id="imageField" style="display: none">
+                <label class="form-label">Imagen</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="serviceImage"
+                  accept="image/*"
+                  onchange="previewImage(event)"
+                />
+                <img
+                  id="imagePreview"
+                  class="image-preview"
+                  alt="Vista previa"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serviceName"
+                  placeholder="Nombre del servicio"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Precio</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="servicePrice"
+                  placeholder="0"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Cantidad</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="serviceQuantity"
+                  placeholder="0"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea
+                  class="form-control"
+                  id="serviceDescription"
+                  rows="3"
+                  placeholder="Descripción del servicio"
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Promoción</label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="promotion"
+                      id="promotionYes"
+                      value="si"
+                      onchange="toggleDiscount()"
+                    />
+                    <label class="form-check-label" for="promotionYes"
+                      >Sí</label
+                    >
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="promotion"
+                      id="promotionNo"
+                      value="no"
+                      checked
+                      onchange="toggleDiscount()"
+                    />
+                    <label class="form-check-label" for="promotionNo">No</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3" id="discountField" style="display: none">
+                <label class="form-label">% Descuento</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="serviceDiscount"
+                  placeholder="0"
+                  min="0"
+                  max="100"
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-save">
+                Guardar servicio
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function solicitarAsesoria() {
+        const mensaje =
+          "¡Hola! Me gustaría solicitar una asesoría sobre sus servicios de TecnoRed.";
+        const numeroWhatsApp = "5715555552";
+        const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(
+          mensaje
+        )}`;
+        window.open(url, "_blank");
+      }
+
+      let services = [
+        {
+          name: "Soporte Técnico",
+          price: 500000,
+          quantity: 20,
+          icon: "fas fa-headset",
+          description: "Servicio de soporte técnico profesional",
+        },
+        {
+          name: "Redes y Servidores",
+          price: 1200000,
+          quantity: 10,
+          icon: "fas fa-server",
+          description: "Configuración y mantenimiento de redes",
+        },
+        {
+          name: "Desarrollo de Software",
+          price: 2500000,
+          quantity: 5,
+          icon: "fas fa-laptop-code",
+          description: "Aplicaciones web y móviles",
+        },
+        {
+          name: "Consultoria",
+          price: 1500000,
+          quantity: 10,
+          icon: "fas fa-exchange-alt",
+          description: "Estrategía e implementación",
+        },
+        {
+          name: "Seguridad Informatica",
+          price: 1000000,
+          quantity: 15,
+          icon: "fas fa-shield-alt",
+          description: "Analisis de vulneralidades y monitoreo",
+        },
+        {
+          name: "Servicio nube",
+          price: 800000,
+          quantity: 20,
+          icon: "fas fa-cloud",
+          description: "Migración y administración en la nube",
+        },
+      ];
+
+      let editingIndex = -1;
+      let currentImageData = null;
+
+      function renderServices() {
+        const tbody = document.getElementById("servicesTableBody");
+        tbody.innerHTML = "";
+
+        services.forEach((service, index) => {
+          const tr = document.createElement("tr");
+
+          let imageHTML = "";
+          if (service.icon) {
+            imageHTML = `<div class="service-icon"><i class="${service.icon}"></i></div>`;
+          } else if (service.image) {
+            imageHTML = `<img src="${service.image}" alt="${service.name}" class="service-image">`;
+          } else {
+            imageHTML = `<div class="service-icon"><i class="fas fa-box"></i></div>`;
+          }
+
+          tr.innerHTML = `
+                    <td>${imageHTML}</td>
+                    <td>
+                        <div class="service-name">${service.name}</div>
+                    </td>
+                    <td>
+                        <div class="service-price">${service.price.toLocaleString(
+                          "es-CO"
+                        )}</div>
+                    </td>
+                    <td>
+                        <span class="quantity-badge">${service.quantity}</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-edit" onclick="editService(${index})">Editar</button>
+                        <button class="btn btn-delete" onclick="deleteService(${index})">Eliminar</button>
+                    </td>
+                `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function toggleImageType() {
+        const iconField = document.getElementById("iconField");
+        const imageField = document.getElementById("imageField");
+        const isIcon = document.getElementById("imageTypeIcon").checked;
+
+        iconField.style.display = isIcon ? "block" : "none";
+        imageField.style.display = isIcon ? "none" : "block";
+      }
+
+      function previewImage(event) {
+        const preview = document.getElementById("imagePreview");
+        const file = event.target.files[0];
+
+        if (file) {
+          if (file.size > 5000000) {
+            alert(
+              "La imagen es muy grande. Por favor selecciona una imagen menor a 5MB."
+            );
+            event.target.value = "";
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            currentImageData = e.target.result;
+            preview.src = currentImageData;
+            preview.style.display = "block";
+          };
+          reader.onerror = function () {
+            alert("Error al cargar la imagen. Intenta con otra imagen.");
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function toggleDiscount() {
+        const discountField = document.getElementById("discountField");
+        const promotionYes = document.getElementById("promotionYes");
+        discountField.style.display = promotionYes.checked ? "block" : "none";
+      }
+
+      function showAddForm() {
+        editingIndex = -1;
+        currentImageData = null;
+        document.getElementById("formTitle").textContent = "Agregar servicio";
+        document.getElementById("serviceForm").reset();
+        document.getElementById("imagePreview").style.display = "none";
+        document.getElementById("imageTypeIcon").checked = true;
+        toggleImageType();
+      }
+
+      function editService(index) {
+        editingIndex = index;
+        const service = services[index];
+
+        document.getElementById("formTitle").textContent = "Editar servicio";
+        document.getElementById("serviceName").value = service.name;
+        document.getElementById("servicePrice").value = service.price;
+        document.getElementById("serviceQuantity").value = service.quantity;
+        document.getElementById("serviceDescription").value =
+          service.description || "";
+
+        if (service.icon) {
+          document.getElementById("imageTypeIcon").checked = true;
+          document.getElementById("serviceIcon").value = service.icon;
+          toggleImageType();
+        } else if (service.image) {
+          document.getElementById("imageTypeFile").checked = true;
+          currentImageData = service.image;
+          const preview = document.getElementById("imagePreview");
+          preview.src = service.image;
+          preview.style.display = "block";
+          toggleImageType();
+        }
+
+        if (service.promotion) {
+          document.getElementById("promotionYes").checked = true;
+          document.getElementById("serviceDiscount").value =
+            service.discount || 0;
+          toggleDiscount();
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function deleteService(index) {
+        if (confirm("¿Está seguro de eliminar este servicio?")) {
+          services.splice(index, 1);
+          renderServices();
+        }
+      }
+
+      document
+        .getElementById("serviceForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const serviceName = document.getElementById("serviceName").value;
+          const servicePrice = document.getElementById("servicePrice").value;
+          const serviceQuantity =
+            document.getElementById("serviceQuantity").value;
+
+          if (!serviceName || !servicePrice || !serviceQuantity) {
+            alert("Por favor completa todos los campos requeridos");
+            return;
+          }
+
+          const isIcon = document.getElementById("imageTypeIcon").checked;
+
+          const service = {
+            name: serviceName,
+            price: parseInt(servicePrice),
+            quantity: parseInt(serviceQuantity),
+            description: document.getElementById("serviceDescription").value,
+            promotion: document.getElementById("promotionYes").checked,
+            discount: document.getElementById("serviceDiscount").value || 0,
+          };
+
+          if (isIcon) {
+            const iconValue = document
+              .getElementById("serviceIcon")
+              .value.trim();
+            service.icon = iconValue || "fas fa-box";
+          } else {
+            service.image =
+              currentImageData ||
+              "https://via.placeholder.com/200/9B59B6/ffffff?text=Sin+Imagen";
+          }
+
+          if (editingIndex >= 0) {
+            services[editingIndex] = service;
+            alert("Servicio actualizado correctamente");
+          } else {
+            services.push(service);
+            alert("Servicio agregado correctamente");
+          }
+
+          renderServices();
+          this.reset();
+          document.getElementById("imagePreview").style.display = "none";
+          currentImageData = null;
+          editingIndex = -1;
+          document.getElementById("formTitle").textContent = "Agregar servicio";
+          document.getElementById("imageTypeIcon").checked = true;
+          toggleImageType();
+        });
+
+      renderServices();
+
+      // --- Persistencia con localStorage ---
+      document.addEventListener("DOMContentLoaded", () => {
+        const saved = localStorage.getItem("services");
+        if (saved) {
+          try {
+            services = JSON.parse(saved);
+            console.log("Servicios cargados desde localStorage");
+            renderServices();
+          } catch (e) {
+            console.error("Error leyendo servicios guardados", e);
+          }
+        }
+      });
+
+      function saveServices() {
+        localStorage.setItem("services", JSON.stringify(services));
+        console.log("Servicios guardados en localStorage");
+      }
+
+      // Modificaciones a las funciones CRUD
+      const oldAddServiceHandler = document.querySelector("form").onsubmit;
+      document.querySelector("form").onsubmit = (e) => {
+        if (oldAddServiceHandler) oldAddServiceHandler(e);
+        saveServices();
+      };
+
+      const oldDeleteService = deleteService;
+      deleteService = function (index) {
+        oldDeleteService(index);
+        saveServices();
+      };
+
+      const oldEditService = editService;
+      editService = function (index) {
+        oldEditService(index);
+        saveServices();
+      };
+    </script>
+  </body>
+</html>
